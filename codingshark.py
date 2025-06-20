@@ -386,7 +386,7 @@ if 'registered' not in st.session_state:
 
 # Home Page
 if menu == "Home":
-    st.title("Welcome to Python Test Portal 🐍")
+    st.title("Welcome to Coding Sharks 🐍")
     st.write("Test your knowledge of Python basics including If-Else, Loops, Functions, Lists and Dictionaries!")
 
 # Register Page
