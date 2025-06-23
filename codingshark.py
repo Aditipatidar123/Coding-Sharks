@@ -352,39 +352,78 @@ st.set_page_config(page_title="Python Kids Test", layout="centered")
 # # Sidebar menu
 # menu = st.sidebar.selectbox("Select Page", ["Home", "Register", "Test", "Result", "Participants"])
 # Step 1: Page state set karo
+# Step 1: Page state set karo
 if 'page' not in st.session_state:
     st.session_state.page = 'Home'
+
+# Step 2: Style sidebar to be fixed and always visible
 st.markdown("""
     <style>
+        /* Fixed sidebar styling */
         [data-testid="stSidebar"] {
             position: fixed !important;
             top: 0;
             left: 0;
-            height: 100vh;
+            height: 100vh !important; 
+            background-color: #f0f0f5 !important;
+            padding-top: 3rem;
             z-index: 999;
+            border-right: 2px solid #d0d0d0;
+            
         }
-        [data-testid="stSidebarNav"] {
-            overflow-y: auto;
-            height: 100%;
-        }
-        [data-testid="collapsedControl"] {
+
+        /* Hide the floating sidebar toggle arrow */
+        [data-testid="collapsedControl"],
+        .css-hxt7ib {
             display: none !important;
+        }
+
+        /* Add Menu label */
+        [data-testid="stSidebar"]::before {
+            content: "📋 Menu";
+            margin-top:20px;
+            
+            display: block;
+            font-size: 40px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+        /* Button styling inside sidebar */
+        section[data-testid="stSidebar"] button {
+            margin: 5px 15px;
+            border-radius: 8px;
+            background-color: #d6e4ff;
+            color: black;
+            font-weight: bold;
+            width: 80%;
+        }
+
+        section[data-testid="stSidebar"] button:hover {
+            background-color: #adc6ff;
+        }
+        .st-emotion-cache-1f3w014 {
+            display: none;
+        }
+        .st-emotion-cache-1w7bu1y {
+            display:none;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Step 2: Sidebar buttons banao
-st.sidebar.title("Navigation")
-if st.sidebar.button("Home"):
-    st.session_state.page = 'Home'
-if st.sidebar.button("Register"):
-    st.session_state.page = 'Register'
-if st.sidebar.button("Test"):
-    st.session_state.page = 'Test'
-if st.sidebar.button("Result"):
-    st.session_state.page = 'Result'
-if st.sidebar.button("Participants"):
-    st.session_state.page = 'Participants'
+# Step 3: Sidebar navigation buttons
+with st.sidebar:
+    if st.button("Home"):
+        st.session_state.page = 'Home'
+    if st.button("Register"):
+        st.session_state.page = 'Register'
+    if st.button("Test"):
+        st.session_state.page = 'Test'
+    if st.button("Result"):
+        st.session_state.page = 'Result'
+    if st.button("Participants"):
+        st.session_state.page = 'Participants'
 
 
 # Sample questions (Extended to 20)
@@ -506,7 +545,7 @@ elif st.session_state.page == "Test":
             student_data = {
                 "Name": st.session_state.name,
                 "gmail": st.session_state.gmail,
-                "School": st.session_state.phonenumber,
+                "phonenumber": st.session_state.phonenumber,
                 "Score": score,
                 "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
@@ -540,7 +579,7 @@ elif st.session_state.page == "Participants":
     st.title("👥 List of Participants")
     if os.path.exists("student_data.csv"):
         df = pd.read_csv("student_data.csv")
-        st.dataframe(df.drop_duplicates(subset=["Roll No"]))
+        st.dataframe(df.drop_duplicates(subset=["phonenumber"]))
     else:
         st.info("No participants yet.")
 
