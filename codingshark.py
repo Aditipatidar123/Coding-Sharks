@@ -403,12 +403,10 @@ st.markdown("""
         section[data-testid="stSidebar"] button:hover {
             background-color: #adc6ff;
         }
-        .st-emotion-cache-1f3w014 {
+        section[data-testid="stBaseButton-headerNoPadding"] { 
             display: none;
         }
-        .st-emotion-cache-1w7bu1y {
-            display:none;
-        }
+        
     </style>
 """, unsafe_allow_html=True)
 
