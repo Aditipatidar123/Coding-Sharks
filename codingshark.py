@@ -349,8 +349,25 @@ import os
 # Set up page configuration
 st.set_page_config(page_title="Python Kids Test", layout="centered")
 
-# Sidebar menu
-menu = st.sidebar.selectbox("Select Page", ["Home", "Register", "Test", "Result", "Participants"])
+# # Sidebar menu
+# menu = st.sidebar.selectbox("Select Page", ["Home", "Register", "Test", "Result", "Participants"])
+# Step 1: Page state set karo
+if 'page' not in st.session_state:
+    st.session_state.page = 'Home'
+
+# Step 2: Sidebar buttons banao
+st.sidebar.title("Navigation")
+if st.sidebar.button("Home"):
+    st.session_state.page = 'Home'
+if st.sidebar.button("Register"):
+    st.session_state.page = 'Register'
+if st.sidebar.button("Test"):
+    st.session_state.page = 'Test'
+if st.sidebar.button("Result"):
+    st.session_state.page = 'Result'
+if st.sidebar.button("Participants"):
+    st.session_state.page = 'Participants'
+
 
 # Sample questions (Extended to 20)
 questions = [
@@ -385,41 +402,60 @@ if 'registered' not in st.session_state:
     st.session_state.registered = False
 
 # Home Page
-if menu == "Home":
+# if menu == "Home":
+if st.session_state.page == "Home":
     st.title("Welcome to Coding Sharks 🐍")
-    st.write("Test your knowledge of Python basics including If-Else, Loops, Functions, Lists and Dictionaries!")
-
+    st.write("Test your knowledge of Python basics including If-Else, Loops, Functions, Lists and ictionaries!")
+    st.title("1. Platform ka Purpose (Introduction)")
+    st.write("“Ye platform students ko Python ke basic concepts practice karne ke liye banaya gaya hai.”")
+    st.title("2. Key Topics Covered")
+    st.write("If-Else2. Loops3.4.list5.dictionaries")
+    st.title("3. How It Works (Steps)")
+    st.markdown("""
+<div style='background-color:#f9f9f9;padding:10px;border-radius:10px'>
+<h3>🎯 How to Use This Platform</h3>
+<ul style="list-style:none;margin-top:8px">
+<li style="margin-bottom:5px">📝 <b>Register</b> yourself</li>
+<li style="margin-bottom:5px">🧑‍💻 <b>Take the Quiz</b></li>
+<li style="margin-bottom:5px">📊 <b>Get your Score</b></li>
+<li style="margin-bottom:5px">🏆 <b>View Your Rank</b></li>
+</ul>
+</div>
+""", unsafe_allow_html=True)
 # Register Page
-elif menu == "Register":
+# elif menu == "Register":
+elif st.session_state.page == "Register":
     st.title("📝 Registration Form")
     name = st.text_input("Enter your name")
-    roll = st.text_input("Enter your roll number")
-    school = st.text_input("Enter your school name")
+    gmail = st.text_input("Enter your gmail")
+    phonenumber= st.text_input("enter your phone number")
 
     if st.button("Done"):
-        if name and roll and school:
+        if name and gmail and phonenumber:
             # Check for duplicate roll number
             if os.path.exists("student_data.csv"):
                 existing_data = pd.read_csv("student_data.csv")
-                if roll in existing_data['Roll No'].astype(str).values:
+                if gmail in existing_data['Roll No'].astype(str).values:
                     st.error("This roll number is already registered.")
                 else:
                     st.session_state.name = name
-                    st.session_state.roll = roll
-                    st.session_state.school = school
+                    st.session_state.gmail = gmail
+                    st.session_state.phonenumber =phonenumber
                     st.session_state.registered = True
                     st.success("You're registered and ready to take the test!")
             else:
                 st.session_state.name = name
-                st.session_state.roll = roll
-                st.session_state.school = school
+                st.session_state.gmail = gmail
+                st.session_state.phonenumber = phonenumber
                 st.session_state.registered = True
                 st.success("You're registered and ready to take the test!")
         else:
             st.warning("Please fill all fields.")
 
 # Test Page
-elif menu == "Test":
+# elif menu == "Test":
+elif st.session_state.page == "Test":
+# if st.session_state.page == "Home":
     if not st.session_state.registered:
         st.warning("Please register first before taking the test.")
     else:
@@ -451,8 +487,8 @@ elif menu == "Test":
             # Save result to CSV
             student_data = {
                 "Name": st.session_state.name,
-                "Roll No": st.session_state.roll,
-                "School": st.session_state.school,
+                "gmail": st.session_state.gmail,
+                "School": st.session_state.phonenumber,
                 "Score": score,
                 "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
@@ -466,7 +502,8 @@ elif menu == "Test":
                 df.to_csv("student_data.csv", index=False)
 
 # Result Page
-elif menu == "Result":
+# elif menu == "Result":
+elif st.session_state.page == "Result":
     st.title("📊 Test Result")
     if st.session_state.submitted:
         st.write(f"Your score is: {st.session_state.score} / {len(questions)}")
@@ -480,7 +517,8 @@ elif menu == "Result":
         st.write("Please take the test first.")
 
 # Participants Page
-elif menu == "Participants":
+# elif menu == "Participants":
+elif st.session_state.page == "Participants":
     st.title("👥 List of Participants")
     if os.path.exists("student_data.csv"):
         df = pd.read_csv("student_data.csv")
