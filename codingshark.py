@@ -354,6 +354,24 @@ st.set_page_config(page_title="Python Kids Test", layout="centered")
 # Step 1: Page state set karo
 if 'page' not in st.session_state:
     st.session_state.page = 'Home'
+st.markdown("""
+    <style>
+        [data-testid="stSidebar"] {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 999;
+        }
+        [data-testid="stSidebarNav"] {
+            overflow-y: auto;
+            height: 100%;
+        }
+        [data-testid="collapsedControl"] {
+            display: none !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 # Step 2: Sidebar buttons banao
 st.sidebar.title("Navigation")
