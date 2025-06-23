@@ -490,8 +490,8 @@ elif st.session_state.page == "Register":
             # Check for duplicate roll number
             if os.path.exists("student_data.csv"):
                 existing_data = pd.read_csv("student_data.csv")
-                if gmail in existing_data['Roll No'].astype(str).values:
-                    st.error("This roll number is already registered.")
+                if gmail in existing_data['gmail'].astype(str).values:
+                    st.error("This gmail is already registered.")
                 else:
                     st.session_state.name = name
                     st.session_state.gmail = gmail
